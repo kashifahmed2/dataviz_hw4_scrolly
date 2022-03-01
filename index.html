@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Data Visualization Kashif Ahmed</title>
+    <meta charset="utf-8">
+    <style>
+        .chart-container {
+            max-width: 1050px;
+            margin: 0 auto;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        svg {
+            overflow: visible;
+        }
+
+        h1 {
+            font-family: 'Arial';
+            font-weight: 400;
+            font-size: 24px;
+        }
+
+        h3 {
+            justify-content: left;
+            margin-top: 35px;
+            font-family: 'Arial';
+            font-weight: 400;
+            font-size: 20px;
+        }
+
+        .x .tick line {
+            stroke: rgba(0, 0, 0, .5);
+        }
+
+        .y .tick line {
+            stroke: rgba(0, 0, 0, .2);
+        }
+
+        .x .domain {
+            display: none;
+        }
+
+        .y .domain {
+            display: none;
+        }
+
+        .y .tick text {
+            font-size: 12px;
+            fill: #333;
+            font-weight: 300;
+
+        }
+
+        .x .tick text {
+            font-size: 12px;
+            fill: #333;
+            font-weight: 100;
+            letter-spacing: 1px;
+        }
+
+        .label {
+            font-size: 20px;
+            font-weight: 100;
+            font-family: 'Arial';
+        }
+
+        .axis-label {
+            font-size: 13px;
+            font-family: 'Arial';
+            letter-spacing: 0.8px;
+            font-weight: 300;
+        }
+
+        .source {
+            max-width: 600px;
+            margin: -20px 100px;
+            font-family: 'Arial';
+            font-size: 12px;
+            color: #999999;
+            line-height: 1.5;
+
+        }
+
+        .source em {
+            max-width: 600px;
+            margin: 0;
+            font-family: 'Arial';
+            font-size: 12px;
+            color: black;
+            line-height: 1.5;
+            font-style: normal;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: -25px;
+            margin-right: -150px;
+        }
+
+        .legend { 
+            list-style: none;
+            float: right;
+            margin-right: 250px;
+            margin-bottom: 0px; }
+
+        .legend li { 
+            float: left; 
+            margin-right: 10px; 
+            font-family: 'Arial';
+            font-size: 11px;
+            font-weight: 400;}
+    
+        .legend span { 
+            border: 0px solid #ccc; 
+            float: left; 
+            width: 12px; 
+            height: 12px; 
+            margin-right: 4px;
+            margin-bottom: 1px; }
+
+        .legend .med { 
+            background-color: #FDD835;}
+        .legend .subex { 
+            background-color: #F06292; }
+        .legend .chip { 
+            background-color: #5C6BC0; }
+        .legend .military { 
+            background-color: #90A4AE; }
+        .legend .other { 
+            background-color: #E0E0E0; }
+
+        .filler {
+            height: 5 rem;
+            text-align: center;
+        }
+
+        .filler h2 {
+            font-family: 'Arial';
+            font-size: 30px;
+        }
+
+        .filler h3 {
+            font-family: 'Arial';
+            font-size: 30px;
+        }
+
+        .filler p {
+            font-family: 'Arial';
+            font-size: 16px;
+            text-align: left;
+            margin: 20px auto;
+            line-height: 1.2;
+            max-width: 600px
+            
+        }
+
+        #scrolly-overlay .scrolly {
+            font-family: 'Arial';
+            font-size: 24px;
+            max-width: 60rem;
+            margin: 3rem auto;
+            padding: 1rem;
+            position: relative;
+
+        }
+
+        #scrolly-overlay .scrolly article {
+            padding: 0;
+            max-width: 30rem;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #scrolly-overlay .scrolly article .step {
+            min-height: 115vh;
+            margin-bottom: 1rem;
+        }
+
+        #scrolly-overlay .scrolly article .step:last-of-type {
+            margin-bottom: 0;
+        }
+
+        #scrolly-overlay .scrolly article .step.is-active p {
+            background-color: black;
+        }
+
+        #scrolly-overlay .scrolly article .step p {
+            margin: 0;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 400;
+            background-color: #5b5b5b;
+            transition: background-color 250ms ease-in-out;
+            color: #f4f4f4;
+        }
+
+        #scrolly-overlay .scrolly figure.sticky {
+            position: sticky;
+            width: 100%;
+            height: 80vh;
+            margin: 0;
+            top: 25vh;
+            left: 0;
+        }
+
+        #scrolly-overlay .scrolly figure.sticky .svg-chart {
+            position: absolute;
+            width: 10%;
+            height: 100%;
+            transition: width 1s ease-in-out;
+        }
+
+        .spacer {
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class='filler'>
+
+        <h2>Data Viz HW1 Q4 Kashif Ahmed: US Health Insurance in 2009 and 2020</h2>
+        
+
+    </section>
+
+    <section id='scrolly-overlay'>
+
+        <div class='scrolly'>
+            <figure class='sticky'>
+                <div class = 'chart-container'>
+                    <header class="flex">
+                        <h3 class="headline"> 2009</h3>
+                        <ul class="legend">
+                        </ul>
+                    </header>
+                    <svg width="1050px" height="575px"></svg>
+                    <p class="source">Source: Current Population Survey, analysis by Matt Bruenig</p>
+
+                    <svg class='svg-chart'></svg>
+
+            </figure>
+
+            <article>
+                <div class='step' data-index='0', yearConst="2009">
+                    <p>Happy Scrolling!</p>
+                </div>
+                
+            </article>
+
+        </div>
+
+    </section>
+
+</body>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://unpkg.com/enter-view@1.0.0/enter-view.min.js"></script>
+
+<script>
+
+    let width = 850;
+    let height = 450;
+    let svg = d3.select("body").select("svg")
+
+    d3.csv("healthcare-disposable-inc.csv").then(function (data) {
+        data.forEach(function (row) {
+            row["year"] = +row["year"]
+            row["CHIP"] = +row["CHIP"]
+            row["Direct Purchase"] = +row["Direct Purchase"]
+            row["Employer"] = +row["Employer"]
+            row["Medicaid"] = +row["Medicaid"]
+            row["Medicare"] = +row["Medicare"]
+            row["Medicare+Medicaid"] = +row["Medicare+Medicaid"]
+            row["Military"] = +row["Military"]
+            row["Other"] = +row["Other"]
+            row["Percentile"] = +row["Percentile"]
+            row["Subsidized Exchange"] = +row["Subsidized Exchange"]
+            row["Uninsured"] = +row["Uninsured"]
+        })
+
+        let margin = { top: 10, right: 10, bottom: 10, left: 30 };
+
+        let sel_cols = [
+            "Medicaid",
+            "Medicare",
+            "Medicare+Medicaid",
+            "Employer",
+            "Uninsured",
+            "Direct Purchase",
+            "Subsidized Exchange",
+            "CHIP",
+            "Military",
+            "Other"]
+
+        let sel_colors = [
+            "#f44336", // "Medicaid",
+            "#FF9800", // "Medicare",
+            "#FDD835", // "Medicare+Medicaid",
+            "#FFF8E1", // "Employer",
+            "#26A69A", // "Uninsured",
+            "#4DD0E1", // "Direct Purchase",
+            "#F06292", // "Subsidized Exchange",
+            "#5C6BC0", // "CHIP",
+            "#90A4AE", // "Military",
+            "#E0E0E0"  // "Other"
+        ]
+
+        let year_state = 2009;
+
+        let d2009 = data.filter(d => d.type == "smoothed" && d.year == 2009);
+        let d2020 = data.filter(d => d.type == "smoothed" && d.year == 2020);
+
+        let series2009 = d3.stack().keys(sel_cols)(d2009);
+        let series2020 = d3.stack().keys(sel_cols)(d2020);
+
+        let color = d3.scaleOrdinal()
+            .domain(sel_cols)
+            .range(sel_colors)
+
+        let x = d3.scaleLinear()
+            .domain([0, 100])
+            .range([0, width])
+        
+        let y = d3.scaleLinear()
+            .domain([0, 1])
+            .range([height - margin.bottom, margin.top])
+        
+        let area = d3.area()
+            .x(d => x(d.data.Percentile))
+            .y0(d => y(d[0]))
+            .y1(d => y(d[1]))
+
+        let xAxisSettings = d3.axisBottom(x)
+            .tickSize(6)
+            .tickPadding(6)
+            .tickValues([5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95])
+            .tickFormat(d3.format(".0f"))
+        
+        let xAxis = svg
+            .append("g")
+            .attr("class", "x axis")
+            .call(xAxisSettings)
+            .call(g => g.selectAll(".domain").remove())
+            .attr("transform", `translate(0, ${height - margin.bottom})`)
+
+        let yAxisSettings = d3.axisLeft(y)
+            .tickValues([.2, .4, .6, .8])
+            .tickSize(6)
+            .tickPadding(4)
+            .tickFormat(d3.format(".0%"))
+
+        let yAxis = svg
+            .append("g")
+            .attr("class", "y axis")
+            .call(yAxisSettings)
+            .call(g => g.selectAll(".domain").remove())
+        
+        let stacks = svg
+            .append("g")
+            .attr("class", "stacks")
+
+        let stack;
+        let hed = d3.select(".headline")
+
+        labels_x = [650, 50, 60, 80, 855];
+        labels_y = [250, 380, 300, 120, 40];
+
+        stacks.selectAll("path")
+            .data(series2009)
+            .join("path")
+            .attr("class", d => d.key)
+            .attr("fill", d => color(d.key))
+            .attr("d", area)
+            .append("title")
+
+        let label1 = svg
+            .append("text")
+            .attr("class", "label")
+            .attr("x", labels_x[0])
+            .attr("y", labels_y[0])
+            .text("Employer")
+            .style("fill", "#333333")
+        
+        let label2 = svg
+            .append("text")
+            .attr("class", "label")
+            .attr("x", labels_x[1])
+            .attr("y", labels_y[1])
+            .text("Medicaid")
+            .style("fill", "white")
+        
+        let label3 = svg
+            .append("text")
+            .attr("class", "label")
+            .attr("x", labels_x[2])
+            .attr("y", labels_y[2])
+            .text("Medicare")
+            .style("fill", "#333333")
+
+        let label4 = svg
+            .append("text")
+            .attr("class", "label")
+            .attr("x", labels_x[3])
+            .attr("y", labels_y[3])
+            .text("Uninsured")
+            .style("fill", "white")
+        
+        
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("x", width/2)
+            .attr("y", height + 40)
+            .text("Income Percentile")
+            .attr("text-anchor", "middle")
+
+        function update(){
+            if (year_state == 2009){
+                year_state = 2020;
+                labels_x = [650, 70, 60, 120, 855];
+                labels_y = [250, 360, 260, 85, 43];
+                dance(series2020, labels_x, labels_y);
+                hed.html("2020");
+            }
+            else {
+                year_state = 2009;
+                labels_x = [650, 50, 70, 70, 855];
+                labels_y = [250, 380, 300, 120, 40];
+                dance(series2009, labels_x, labels_y);
+                hed.html("2009");
+            }
+        }
+
+        function dance(filtered_data, labels_x, labels_y){
+            let dur_time = 1500;
+            stacks
+                .selectAll("path")
+                .data(filtered_data)
+                .join("path")
+                .attr("class", d => d.key)
+                .transition()
+                .duration(dur_time)
+                .ease(d3.easeCubic)
+                .attr("fill", d => color(d.key))
+                .attr("d", area)
+            
+            
+            label1
+                .transition()
+                .duration(dur_time)
+                .ease(d3.easeCubic)
+                .attr("class", "label")
+                .attr("x", labels_x[0])
+                .attr("y", labels_y[0])
+                .text("Employer")
+        
+            label2
+                .transition()
+                .duration(dur_time)
+                .ease(d3.easeCubic)
+                .attr("class", "label")
+                .attr("x", labels_x[1])
+                .attr("y", labels_y[1])
+                .text("Medicaid")
+        
+            label3
+                .transition()
+                .duration(dur_time)
+                .ease(d3.easeCubic)
+                .attr("class", "label")
+                .attr("x", labels_x[2])
+                .attr("y", labels_y[2])
+                .text("Medicare")
+
+            label4
+                .transition()
+                .duration(dur_time)
+                .ease(d3.easeCubic)
+                .attr("class", "label")
+                .attr("x", labels_x[3])
+                .attr("y", labels_y[3])
+                .text("Uninsured")
+        
+
+        }
+
+        const container = d3.select('#scrolly-overlay');
+        const stepSel = container.selectAll('.step'); 
+        
+        function updateChart(index) {
+            const sel = container.select(`[data-index='${index}']`);
+            const yearConst = parseInt(sel.attr('yearConst'));
+            stepSel.classed('is-active', (d, i) => i === index);
+            update(yearConst);
+        }   
+
+        function init() {
+
+            enterView({ 
+            selector: stepSel.nodes(),
+            offset: 0.5, 
+            enter: el => { 
+                const index = +d3.select(el).attr('data-index'); 
+                updateChart(index);
+            },
+            exit: el => {
+                let index = +d3.select(el).attr('data-index');
+                index = Math.max(0, index - 1);
+                updateChart(index);
+            }
+        });
+
+    }
+
+    init();
+
+})
+
+</script>
